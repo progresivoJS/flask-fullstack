@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 import restaurant_dao 
 
 app = Flask(__name__)
@@ -6,15 +6,10 @@ app = Flask(__name__)
 @app.route('/')
 @app.route('/restaurants/<int:restaurant_id>/')
 def restaurantMenu(restaurant_id): # should match with paramter of url accordingly.
+    restaurant = restaurant_dao.get_restaurant(restaurant_id)
     items = restaurant_dao.get_menu(restaurant_id)
 
-    output = ''
-    for item in items:
-        output += item.name + "</br>"
-        output += item.price + "</br>"
-        output += item.description + "</br>"
-        output += "</br>"
-    return output
+    return render_template('menu.html', restaurant = restaurant, items = items)
 
 @app.route('/restaurants/<int:restaurant_id>/new/')
 def newMenuItem(restaurant_id):

@@ -8,10 +8,14 @@ Base.metadata.bind = engine
 DBSession = sessionmaker(bind = engine)
 session = DBSession()
 
+def get_restaurant(restaurant_id):
+    restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+    return restaurant
+
 def get_menu(restaurant_id):
     '''
     return restaurant_id's menu.
     '''
-    restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
+    restaurant = get_restaurant(restaurant_id)
     items = session.query(MenuItem).filter_by(restaurant_id = restaurant.id)
     return items
