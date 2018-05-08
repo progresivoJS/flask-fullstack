@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for
 import restaurant_dao 
 
 app = Flask(__name__)
@@ -13,11 +13,11 @@ def restaurantMenu(restaurant_id): # should match with paramter of url according
 
 @app.route('/restaurants/<int:restaurant_id>/new/')
 def newMenuItem(restaurant_id):
-    pass
+    return "Hi"
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/edit/')
 def editMenuItem(restaurant_id, menu_id):
-    pass
+    return "Edit page"
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/delete/')
 def deleteMenuItem(restaurant_id, menu_id):

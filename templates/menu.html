@@ -9,6 +9,9 @@
         <p>{{i.description}}</p>
         <p>{{i.price}}</p>
     </div>
+    <div>
+        <a href="{{url_for('editMenuItem', restaurant_id = restaurant.id,menu_id = i.id)}}">Edit</a>
+    </div>
     {% endfor %}
 </body>
 
