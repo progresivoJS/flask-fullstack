@@ -1,13 +1,12 @@
 from flask import Flask
-from database_setup import Restaurant, MenuItem
 import restaurant_dao 
 
 app = Flask(__name__)
 
 @app.route('/')
-@app.route('/hello')
-def HelloWorld():
-    items = restaurant_dao.get__menu_items_of_first_restaurant()
+@app.route('/restaurants/<int:restaurant_id>/')
+def restaurantMenu(restaurant_id):
+    items = restaurant_dao.get_menu(restaurant_id)
 
     output = ''
     for item in items:
