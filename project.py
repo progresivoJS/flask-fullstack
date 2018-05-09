@@ -29,9 +29,14 @@ def editMenuItem(restaurant_id, menu_id):
         restaurant_dao.rename_item(menu_id, request.form['name'])
         return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 
-@app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/delete/')
+@app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/delete/', methods = ['GET', 'POST'])
 def deleteMenuItem(restaurant_id, menu_id):
-    return "HI"
+    if request.method == 'GET':
+        item = restaurant_dao.get_menu(menu_id)
+        return render_template('deletemenuitem.html', item = item)
+    else:
+        restaurant_dao.delete_item_from_restaurant(restaurant_id, menu_id)
+        return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 
 if __name__ == '__main__':
     app.debug = True
