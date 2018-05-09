@@ -36,3 +36,9 @@ def rename_item(menu_id, new_name):
     session.add(item)
     session.commit()
     return
+
+def delete_item_from_restaurant(restaurant_id, menu_id):
+    item = session.query(MenuItem).filter_by(id = menu_id, restaurant_id = restaurant_id).one()
+    session.delete(item)
+    session.commit()
+    return
