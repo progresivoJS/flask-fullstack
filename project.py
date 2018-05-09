@@ -24,7 +24,7 @@ def newMenuItem(restaurant_id):
 def editMenuItem(restaurant_id, menu_id):
     if request.method == 'GET':
         menu = restaurant_dao.get_menu(menu_id)
-        return render_template('editmenuitem.html', restaurant_id = restaurant_id, menu_id = menu_id, menu = menu)
+        return render_template('editmenuitem.html', menu = menu)
     else:
         restaurant_dao.rename_item(menu_id, request.form['name'])
         return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
