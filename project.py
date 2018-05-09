@@ -7,7 +7,7 @@ app = Flask(__name__)
 @app.route('/restaurants/<int:restaurant_id>/')
 def restaurantMenu(restaurant_id): # should match with paramter of url accordingly.
     restaurant = restaurant_dao.get_restaurant(restaurant_id)
-    items = restaurant_dao.get_menu(restaurant_id)
+    items = restaurant_dao.get_menus_of_restaurant(restaurant_id)
 
     return render_template('menu.html', restaurant = restaurant, items = items)
 
@@ -20,9 +20,14 @@ def newMenuItem(restaurant_id):
         return render_template('newmenuitem.html', restaurant_id = restaurant_id)
 
 
-@app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/edit/')
+@app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/edit/', methods = ['GET', 'POST'])
 def editMenuItem(restaurant_id, menu_id):
-    return "Edit page"
+    if request.method == 'GET':
+        menu = restaurant_dao.get_menu(menu_id)
+        return render_template('editmenuitem.html', menu = menu)
+    else:
+        restaurant_dao.rename_item(menu_id, request.form['name'])
+        return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/delete/')
 def deleteMenuItem(restaurant_id, menu_id):
