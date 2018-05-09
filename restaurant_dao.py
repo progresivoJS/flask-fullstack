@@ -19,3 +19,9 @@ def get_menu(restaurant_id):
     restaurant = get_restaurant(restaurant_id)
     items = session.query(MenuItem).filter_by(restaurant_id = restaurant.id)
     return items
+
+def add_new_item(name, restaurant_id):
+    newItem = MenuItem(name = name, restaurant_id = restaurant_id)
+    session.add(newItem)
+    session.commit()
+    return
