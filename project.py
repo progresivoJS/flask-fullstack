@@ -1,4 +1,4 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, flash
 import restaurant_dao 
 
 app = Flask(__name__)
@@ -15,6 +15,7 @@ def restaurantMenu(restaurant_id): # should match with paramter of url according
 def newMenuItem(restaurant_id):
     if request.method == 'POST':
         restaurant_dao.add_new_item(request.form['name'], restaurant_id)
+        flash("new menu item created!")
         return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
     else:
         return render_template('newmenuitem.html', restaurant_id = restaurant_id)
@@ -27,6 +28,7 @@ def editMenuItem(restaurant_id, menu_id):
         return render_template('editmenuitem.html', menu = menu)
     else:
         restaurant_dao.rename_item(menu_id, request.form['name'])
+        flash("Menu Item Edited")
         return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 
 @app.route('/restaurants/<int:restaurant_id>/<int:menu_id>/delete/', methods = ['GET', 'POST'])
@@ -36,8 +38,10 @@ def deleteMenuItem(restaurant_id, menu_id):
         return render_template('deletemenuitem.html', item = item)
     else:
         restaurant_dao.delete_item_from_restaurant(restaurant_id, menu_id)
+        flash("Menu Item Deleted")
         return redirect(url_for('restaurantMenu', restaurant_id = restaurant_id))
 
 if __name__ == '__main__':
+    app.secret_key = 'super_secret_key'
     app.debug = True
     app.run(host = '', port = 5000)
